@@ -96,7 +96,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 data="{{routeData}}"
                 tail="{{subroute}}"></app-route>
 
-        <paper-fab icon="add" on-click="openUploadDialog"></paper-fab>
+
+        <paper-fab icon="add" on-click="openUploadDialog" hidden$="{{hasNoPhotos}}" class="animated fadeIn"></paper-fab>
 
         <paper-dialog id="dialog" with-backdrop>
             <firebase-storage-upload id="upload"></firebase-storage-upload>
@@ -109,9 +110,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-drawer-layout>
 
             <app-drawer>
+                <strong>[[hidden]]</strong>
                 <app-toolbar>Menu</app-toolbar>
                 <paper-menu selected="{{page}}" attr-for-selected="name">
-                    <paper-item name="upload-view" on-click="goToPage"><i class="fa fa-upload"></i>&nbsp; Upload</paper-item>
+                    <!--<paper-item name="upload-view" on-click="goToPage"><i class="fa fa-upload"></i>&nbsp; Upload</paper-item>-->
                     <paper-item name="photos-grid" on-click="goToPage"><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp; Showcase</paper-item>
                 </paper-menu>
             </app-drawer>
@@ -146,12 +148,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             openUploadDialog() {
                 this.$.dialog.open();
             }
+            _hasNoPhotos(files) {
+                return files.length <= 0 || !(files);
+            }
             beforeRegister() {
                 this.properties = {
                     page: {
                         type: String,
                         reflectToAttribute: true,
                         observer: '_pageChanged'
+                    },
+                    files: {
+                        type: Array,
+                        value: []
+                    },
+                    hasNoPhotos: {
+                        type: Boolean,
+                        computed: '_hasNoPhotos(files)'
                     }
                 };
                 this.observers = [
@@ -161,6 +174,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             ready() {
                 this.$.upload.addEventListener('upload-complete', () => {
                    this.$.dialog.close();
+                });
+
+                firebase.database().ref('/files').on('value', (snapshot) => {
+                   this.files =  _.values(snapshot.val());
                 });
             }
             goToPage(event) {
