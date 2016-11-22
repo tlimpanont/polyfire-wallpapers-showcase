@@ -2,7 +2,7 @@
 
 This application extends `vaadin-upload` and adds polymerfire-app element to connect with the realtime db and storage of firebase. 
 
-#### Mobile view with drag drop uploading
+#### Mobile view: uploading via drag & drop and delete-toast notification
 <img src="https://cloud.githubusercontent.com/assets/617876/20542815/97c9d2e8-b103-11e6-9766-9ffd16a0e99a.gif" width="400" />
 
 #### Uploading via FAB 
