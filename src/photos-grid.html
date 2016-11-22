@@ -1,0 +1,105 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="photos-grid">
+    <template>
+        <style include="iron-flex iron-flex-factors shared-styles">
+            :host {
+
+            }
+
+            paper-card {
+                --paper-card-header-color: white;
+                padding: 10px;
+                margin: 10px 0;
+            }
+
+            paper-card /deep/ .header {
+                /*width: 100%;*/
+                height: 150px;
+            }
+
+
+            .card-actions {
+                @apply(--layout-horizontal);
+                @apply(--layout-center-justified);
+            }
+
+            paper-icon-button {
+                color: var(--secondary-text-color);
+            }
+
+        </style>
+
+        <!--<firebase-query-->
+                <!--id="files"-->
+                <!--path="/files"-->
+                <!--data="{{files}}"-->
+                <!--order-by-key>-->
+        <!--</firebase-query>-->
+
+        <div class="container-fluid">
+            <template is="dom-repeat" items="{{files}}" as="file" index-as="index">
+                <div class="col-md-3 col-sm-6">
+                    <paper-card heading="{{file.name}}" image="{{file.downloadURL}}" elevation="2">
+                        <div class="card-actions">
+                            <paper-icon-button icon="favorite"></paper-icon-button>
+                        </div>
+                    </paper-card>
+                </div>
+            </template>
+        </div>
+
+
+
+    </template>
+
+    <script>
+        ((Polymer, _) => {
+            class View {
+
+                get behaviors() {
+                    return [
+                        Polymer.NeonAnimatableBehavior,
+                        Polymer.IronResizableBehavior
+                    ];
+                }
+
+                beforeRegister() {
+                    this.is = 'photos-grid';
+
+                    this.properties = {
+                        files: {
+                            type: Array
+                        }
+                    };
+                }
+
+                ready() {
+                    firebase.database().ref('/files').orderByKey().on('value', (snapshot) => {
+                       this.files = _.values(snapshot.val()).reverse();
+                    });
+                }
+            }
+
+            Polymer(View);
+        })(Polymer, _);
+    </script>
+</dom-module>

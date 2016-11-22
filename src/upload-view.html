@@ -1,0 +1,102 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/paper-progress/paper-progress.html">
+<link rel="import" href="../bower_components/vaadin-upload/vaadin-upload.html">
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="./firebase-storage-upload.html">
+
+
+<dom-module id="upload-view">
+
+    <template>
+        <style include="iron-flex shared-styles iron-positioning">
+            :host {
+                @apply(--layout-vertical);
+                @apply(--layout-center-center);
+            }
+
+            paper-card {
+                padding: 10px;
+                border-radius: 2px;
+            }
+            paper-toast paper-button {
+                color: var(--accent-color);
+            }
+        </style>
+
+        <paper-card elevation="3">
+            <firebase-storage-upload id="upload"></firebase-storage-upload>
+        </paper-card>
+
+        <!--<paper-button on-click="openToast">Open Toast</paper-button>-->
+        <paper-toast id="toast">
+            <iron-icon icon="thumb-up" class="flex"></iron-icon>&nbsp;Files are uploaded
+            <paper-button on-click="goToShowcase">Go to showcase</paper-button>
+        </paper-toast>
+
+    </template>
+
+    <script>
+        ((Polymer) => {
+            class View {
+
+                goToShowcase() {
+                    window.location.hash = "photos-grid";
+                }
+
+
+                get behaviors() {
+                    return [
+                        Polymer.NeonAnimatableBehavior,
+                        Polymer.IronResizableBehavior
+                    ];
+                }
+
+                beforeRegister() {
+                    this.is = 'upload-view';
+
+                    this.properties = {
+                        page: String
+                    };
+                }
+                openToast() {
+                    this.$.toast.open();
+                }
+
+                ready() {
+
+                    this.$.upload.addEventListener('upload-complete', () => {
+                        this.$.toast.open();
+                    });
+
+                    this.$.toast.positionTarget = document.querySelector('neon-animated-pages')
+
+                }
+            }
+
+            Polymer(View);
+        })(Polymer);
+
+    </script>
+</dom-module>

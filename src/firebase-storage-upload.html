@@ -1,0 +1,177 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/vaadin-upload/vaadin-upload.html">
+<link rel="import" href="../bower_components/polymerfire/firebase-app.html">
+
+<dom-module id="firebase-storage-upload">
+
+    <template>
+        <vaadin-upload id="upload" files="[[files]]"></vaadin-upload>
+    </template>
+
+    <script>
+        ((Polymer, firebase, _) => {
+            class FirebaseStorageUpload {
+
+                // Define behaviors with a getter.
+                get behaviors() {
+                    return [];
+                }
+
+                _databaseURL(authDomain) {
+                    let value = authDomain.toString().match(/.*(?=\.firebaseapp\.com)/);
+                    return `https://${value}.firebaseio.com`;
+                }
+
+                _storageBucket(authDomain) {
+                    let value = authDomain.toString().match(/.*(?=\.firebaseapp\.com)/);
+                    return `${value}.appspot.com`;
+                }
+
+                beforeRegister() {
+                    this.is = 'firebase-storage-upload';
+
+                    this.properties = {
+                        authDomain: {
+                            type: String,
+                            reflectToAttribute: true
+                        },
+                        apiKey: {
+                            type: String,
+                            reflectToAttribute: true
+                        },
+                        messagingSenderId: {
+                            type: String,
+                            reflectToAttribute: true
+                        },
+                        databaseURL: {
+                            type: String,
+                            computed: '_databaseURL(authDomain)'
+                        },
+                        storageBucket: {
+                            type: String,
+                            computed: '_storageBucket(authDomain)'
+                        },
+                        files: {
+                            type: Array,
+                            value: []
+                        }
+                    };
+                }
+
+                ready() {
+
+                }
+
+                attached() {
+                    console.log(firebase.app().options);
+                    this.addEventListener('upload-error', this.uploadError.bind(this));
+                    this.addEventListener('upload-success', this.uploadSuccess.bind(this));
+                    this.addEventListener('upload-complete', this.uploadComplete.bind(this));
+
+                    this.$.upload.addEventListener('upload-request', this.uploadRequest.bind(this));
+                    this.$.upload.addEventListener('upload-abort', this.uploadAbort.bind(this));
+                    this.$.upload.addEventListener('upload-retry', this.uploadRetry.bind(this));
+
+                    this.$.upload.addEventListener('drop', this.handleFileSelect.bind(this));
+                    Polymer.dom(this.$.upload).node.$.fileInput.addEventListener('change', this.handleFileSelect.bind(this));
+                }
+
+                handleFileSelect(event) {
+                    let files = (event.dataTransfer) ? event.dataTransfer.files : event.currentTarget.files;
+
+                    this.files = Array.from(files).map((file) => {
+                        return {
+                            file: file,
+                            name: file.name,
+                            progress: 0,
+                            complete: false
+                        }
+                    });
+
+                    this.files.forEach((file, index) => {
+                        this.uploadFile(file, index);
+                    });
+                }
+
+                uploadFile(file, index) {
+
+                    let storage = firebase.storage();
+
+                    let storageRef = storage.ref();
+
+                    let filesRef = storageRef.child('files');
+
+                    let spaceRef = filesRef.child(file.name);
+
+                    let task = spaceRef.put(file.file);
+
+                    this.set(`files.${index}.task`, task);
+                    this.set(`files.${index}.index`, index);
+
+                    task.on('state_changed',
+                        (snapshot) => {
+                            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                            this.set(`files.${index}.progress`, progress);
+                        },
+                        (error) => {
+                            this.fire('upload-error', error);
+                        },
+                        () => {
+                            this.set(`files.${index}.complete`, true);
+                            this.set(`files.${index}.downloadURL`, task.snapshot.downloadURL);
+
+                            firebase.database().ref().child('/files').push({
+                                timestamp: new Date().getTime(),
+                                name: file.name,
+                                downloadURL: task.snapshot.downloadURL
+                            });
+
+                            let completedCount = _.countBy(this.files, 'complete').true;
+                            if (completedCount >= this.files.length) {
+                                this.fire('upload-complete', this.files);
+                            } else {
+                                this.fire('upload-success', file);
+                            }
+                        }
+                    );
+                }
+
+                uploadRequest(event) {
+                    event.preventDefault();
+                }
+
+                uploadSuccess(event) {
+
+                }
+
+                uploadError(event) {
+
+                }
+
+                uploadComplete(event) {
+                    this.set('files', []);
+                }
+
+                uploadAbort(event) {
+                    event.detail.file.task.cancel();
+                }
+
+                uploadRetry(event) {
+                    event.detail.file.task.cancel();
+                    this.uploadFile(event.detail.file, event.detail.file.index);
+                }
+
+                detached() {
+
+                }
+
+                attributeChanged() {
+
+                }
+
+            }
+
+            Polymer(FirebaseStorageUpload);
+        })(Polymer, firebase, _);
+    </script>
+</dom-module>
