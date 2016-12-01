@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-declare const firebase: any;
+import * as firebase from 'firebase';
 
 @component("my-app")
 export class MyApp extends polymer.Base {

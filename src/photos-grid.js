@@ -11,6 +11,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var _ = require('lodash');
+var firebase = require('firebase');
 var PhotosGrid = (function (_super) {
     __extends(PhotosGrid, _super);
     function PhotosGrid() {
