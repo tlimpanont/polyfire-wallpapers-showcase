@@ -1,3 +1,4 @@
+"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -9,6 +10,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var _ = require('lodash');
 var MyApp = (function (_super) {
     __extends(MyApp, _super);
     function MyApp() {
@@ -20,7 +22,7 @@ var MyApp = (function (_super) {
             this.page = page.value.path || 'photos-grid';
         }
     };
-    MyApp.prototype.hasNoPhotos = function (files) {
+    MyApp.prototype._hasNoPhotos = function (files) {
         return files.length <= 0 || !(files);
     };
     MyApp.prototype._pageChanged = function (page) {
@@ -71,7 +73,7 @@ var MyApp = (function (_super) {
     ], MyApp.prototype, "_routePageChanged", null);
     __decorate([
         computed({ type: Boolean })
-    ], MyApp.prototype, "hasNoPhotos", null);
+    ], MyApp.prototype, "_hasNoPhotos", null);
     __decorate([
         observe("page")
     ], MyApp.prototype, "_pageChanged", null);
@@ -80,4 +82,4 @@ var MyApp = (function (_super) {
     ], MyApp);
     return MyApp;
 }(polymer.Base));
-MyApp.register();
+exports.MyApp = MyApp;

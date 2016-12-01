@@ -1,8 +1,8 @@
-declare const _: any;
+import * as _ from 'lodash';
 declare const firebase: any;
 
 @component("my-app")
-class MyApp extends polymer.Base {
+export class MyApp extends polymer.Base {
     @property({
         type: String,
         reflectToAttribute: true,
@@ -29,7 +29,7 @@ class MyApp extends polymer.Base {
     }
 
     @computed({type: Boolean})
-    hasNoPhotos(files): Boolean {
+    _hasNoPhotos(files): Boolean {
         return files.length <= 0 || !(files);
     }
 
@@ -49,7 +49,6 @@ class MyApp extends polymer.Base {
     }
 
     beforeRegister() {
-
     }
 
     ready() {
@@ -71,5 +70,3 @@ class MyApp extends polymer.Base {
         this.page = 'my-view404';
     }
 }
-
-MyApp.register();

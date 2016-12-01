@@ -1,27 +1,34 @@
 {
-  "name": "polyfire-wallpapers-showcase",
-  "version": "1.0.0",
-  "description": "[![Build Status](https://travis-ci.org/PolymerElements/polymer-starter-kit.svg?branch=master)](https://travis-ci.org/PolymerElements/polymer-starter-kit)",
-  "main": "service-worker.js",
-  "directories": {
-    "test": "test"
-  },
+  "name": "polymer-starter-kit",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run webpack-dev-server",
+    "webpack-dev-server": "node_modules/.bin/webpack-dev-server"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/tlimpanont/polyfire-wallpapers-showcase.git"
+  "dependencies": {
+    "firebase": "^3.6.2",
+    "lodash": "^4.17.2",
+    "polymer": "^0.5.0",
+    "rxjs": "^5.0.0-rc.4"
   },
-  "author": "Theuy Limpanont <theuy.limpanont@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/tlimpanont/polyfire-wallpapers-showcase/issues"
-  },
-  "homepage": "https://github.com/tlimpanont/polyfire-wallpapers-showcase#readme",
   "devDependencies": {
-    "@types/firebase": "^2.4.30",
+    "@types/core-js": "^0.9.35",
     "@types/lodash": "^4.14.41",
-    "@types/polymer-ts": "^0.1.28"
+    "@types/polymer-ts": "^0.1.28",
+    "@types/selenium-webdriver": "^2.53.36",
+    "karma": "^1.3.0",
+    "karma-mocha": "^1.3.0",
+    "karma-phantomjs-launcher": "^0.2.3",
+    "karma-webpack": "^1.8.0",
+    "mocha": "^3.2.0",
+    "phantomjs": "^2.1.7",
+    "ts-loader": "^1.2.2",
+    "typescript": "^2.0.10",
+    "typings": "^2.0.0",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2",
+    "webpack-livereload-plugin": "^0.9.0"
   }
 }
