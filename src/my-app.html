@@ -9,6 +9,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/polymer-ts/polymer-ts.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
@@ -49,6 +50,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="upload-view.html">
 
 <link rel="import" href="shared-styles.html">
+
+
 
 
 <dom-module id="my-app">
@@ -143,68 +146,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     </template>
 
-    <script>
-        class App {
-            openUploadDialog() {
-                this.$.dialog.open();
-            }
-            _hasNoPhotos(files) {
-                return files.length <= 0 || !(files);
-            }
-            beforeRegister() {
-                this.properties = {
-                    page: {
-                        type: String,
-                        reflectToAttribute: true,
-                        observer: '_pageChanged'
-                    },
-                    files: {
-                        type: Array,
-                        value: []
-                    },
-                    hasNoPhotos: {
-                        type: Boolean,
-                        computed: '_hasNoPhotos(files)'
-                    }
-                };
-                this.observers = [
-                    '_routePageChanged(route.*)'
-                ];
-            }
-            ready() {
-                this.$.upload.addEventListener('upload-complete', () => {
-                   this.$.dialog.close();
-                });
-
-                firebase.database().ref('/files').on('value', (snapshot) => {
-                   this.files =  _.values(snapshot.val());
-                });
-            }
-            goToPage(event) {
-
-                this.page = event.currentTarget.getAttribute('name');
-                window.location.hash = this.page;
-            }
-
-            _routePageChanged(page) {
-
-                if (page.path === 'route') {
-                    this.page = page.value.path || 'photos-grid';
-                }
-            }
-
-            _pageChanged(page) {
-                // Load page import on demand. Show 404 page if fails
-                var resolvedPageUrl = this.resolveUrl(`${page}.html`);
-                this.importHref(resolvedPageUrl, null, this._showPage404, true);
-            }
-
-            _showPage404() {
-                this.page = 'my-view404';
-            }
-
-        }
-
-        Polymer(App);
-    </script>
 </dom-module>
+
+<script src="my-app.js"></script>
