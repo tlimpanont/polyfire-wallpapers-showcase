@@ -4,8 +4,8 @@
   "description": "",
   "keywords": [],
   "scripts": {
-    "start": "npm run webpack-dev-server",
-    "webpack-dev-server": "node_modules/.bin/webpack-dev-server"
+    "start": "npm run webpack-dev-server && webpack --watch",
+    "webpack-dev-server": "./node_modules/.bin/webpack-dev-server"
   },
   "dependencies": {
     "firebase": "^3.6.2",

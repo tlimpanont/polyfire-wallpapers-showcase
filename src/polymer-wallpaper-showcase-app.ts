@@ -1,8 +1,9 @@
-import * as _ from 'lodash';
-import * as firebase from 'firebase';
+declare const firebase: any;
 
-@component("my-app")
-export class MyApp extends polymer.Base {
+import * as _ from 'lodash';
+
+@component("polyfire-wallpapers-showcase-app")
+export class PolyfireWallpapersShowcaseApp extends polymer.Base {
     @property({
         type: String,
         reflectToAttribute: true,
@@ -37,7 +38,7 @@ export class MyApp extends polymer.Base {
     _pageChanged(page) {
         // Load page import on demand. Show 404 page if fails
         var resolvedPageUrl = this.resolveUrl(`${page}.html`);
-        this.importHref(resolvedPageUrl, null, this._showPage404, true);
+        this.importHref(resolvedPageUrl, null, null, true);
     }
 
     constructor() {
@@ -64,9 +65,5 @@ export class MyApp extends polymer.Base {
     goToPage(event) {
         this.page = event.currentTarget.getAttribute('name');
         window.location.hash = this.page;
-    }
-
-    _showPage404() {
-        this.page = 'my-view404';
     }
 }

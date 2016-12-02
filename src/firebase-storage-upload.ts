@@ -1,6 +1,5 @@
-import * as firebase from 'firebase';
+declare const firebase: any;
 import * as _ from 'lodash';
-
 
 @component('firebase-storage-upload')
 export class FirebaseStorageUpload extends polymer.Base {
@@ -62,7 +61,8 @@ export class FirebaseStorageUpload extends polymer.Base {
         let task = spaceRef.put(file.file);
 
         this.set(`files.${index}.task`, task);
-        this.set(`files.${index}.index`, index);
+        this.set(`fch
+        iles.${index}.index`, index);
 
         task.on('state_changed',
             (snapshot) => {

@@ -1,6 +1,6 @@
-import * as _ from 'lodash';
-import * as firebase from 'firebase';
+declare const firebase: any;
 
+import * as _ from 'lodash';
 
 @component("photos-grid")
 @behavior(Polymer['NeonAnimatableBehavior'])

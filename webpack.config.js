@@ -1,11 +1,10 @@
 var webpack = require('webpack');
 var LiveReloadPlugin = require('webpack-livereload-plugin');
 
-
 var config = {
     entry: './src/index.ts',
     output: {
-        filename: 'dist/bundle.js'
+        filename: './dist/bundle.js'
     },
     resolve: {
         // Add `.ts` and `.tsx` as a resolvable extension.
@@ -20,6 +19,9 @@ var config = {
     plugins: [
         new LiveReloadPlugin({})
     ],
-    devtool: 'source-map'
+    devtool: 'source-map',
+    devServer: {
+        hot: true
+    }
 };
 module.exports = config;
