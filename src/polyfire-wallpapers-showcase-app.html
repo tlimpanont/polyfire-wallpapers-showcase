@@ -38,6 +38,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
 
+
 <link rel="import" href="./shared-styles.html">
 
 <link rel="import" href="./firebase-storage-upload.html">
@@ -47,8 +48,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <template>
     <style include="iron-flex shared-styles">
-      :host {
-      }
 
       app-header {
         color: #fff;
@@ -104,7 +103,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <strong>[[hidden]]</strong>
         <app-toolbar>Menu</app-toolbar>
         <paper-menu selected="{{page}}" attr-for-selected="name">
-          <!--<paper-item name="upload-view" on-click="goToPage"><i class="fa fa-upload"></i>&nbsp; Upload</paper-item>-->
           <paper-item name="photos-grid" on-click="goToPage"><i class="fa fa-picture-o" aria-hidden="true"></i>&nbsp; Showcase</paper-item>
         </paper-menu>
       </app-drawer>

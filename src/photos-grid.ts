@@ -1,4 +1,4 @@
-declare const firebase: any;
+declare let firebase: any;
 
 import * as _ from 'lodash';
 

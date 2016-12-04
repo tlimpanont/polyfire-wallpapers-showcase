@@ -1,5 +1,4 @@
 var webpack = require('webpack');
-var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 var config = {
     entry: './src/index.ts',
@@ -13,15 +12,10 @@ var config = {
     module: {
         loaders: [
             // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
-            {test: /\.tsx?$/, loader: 'ts-loader'}
+            {test: /\.tsx?$/, loader: 'awesome-typescript-loader'}
         ]
     },
-    plugins: [
-        new LiveReloadPlugin({})
-    ],
-    devtool: 'source-map',
-    devServer: {
-        hot: true
-    }
+    plugins: [],
+    devtool: 'source-map'
 };
 module.exports = config;

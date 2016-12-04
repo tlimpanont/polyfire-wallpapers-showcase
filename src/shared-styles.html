@@ -9,19 +9,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<!--<link rel="import" href="../bower_components/paper-styles/default-theme.html">-->
-<!--<link rel="import" href="./technology.html">-->
+<link rel="import" href="../bower_components/paper-styles/default-theme.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
+
 
 <!-- shared styles for all views -->
 <dom-module id="shared-styles">
   <link rel="import" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="css">
   <link rel="import" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.css" type="css">
   <link rel="import" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" type="css">
-  <link rel="import" href="technology.css" type="css">
 
   <template>
-    <style>
-
+    <style include="iron-flex iron-flex-alignment">
+      * {
+        font-family: 'Roboto', 'Noto', sans-serif;
+      }
     </style>
   </template>
 </dom-module>

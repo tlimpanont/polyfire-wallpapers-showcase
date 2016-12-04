@@ -7,7 +7,6 @@
     <title>polyfire-wallpapers-showcase</title>
     <meta name="description" content="polyfire-wallpapers-showcase description">
 
-    <script src="http://localhost:35729/livereload.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.6.1/firebase.js"></script>
 
     <!-- See https://goo.gl/OOhYW5 -->
@@ -16,7 +15,6 @@
     <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
     <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="bower_components/polymer-ts/polymer-ts.html">
-
 
     <link rel="import" href="src/polyfire-wallpapers-showcase-app.html">
 
@@ -30,6 +28,12 @@
         });
     </script>
     <script src="dist/bundle.js"></script>
+
+    <style is="custom-style">
+      html, body {
+        @apply(--layout-fullbleed);
+      }
+    </style>
 
   </head>
   <body>
